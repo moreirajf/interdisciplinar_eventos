@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import models.TipoIngresso;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
@@ -17,11 +20,11 @@ import javax.swing.JComboBox;
 public class AddTipoIngresso extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textNome;
+	private JTextField textPreco;
 	private JLabel lblPreo;
 	private JLabel lblDescrio;
-	private JTextArea textArea;
+	private JTextArea textDescri;
 	private JButton btnSalvar;
 	private JButton btnVoltar;
 
@@ -57,27 +60,27 @@ public class AddTipoIngresso extends JFrame {
 		lblTitulo.setBounds(10, 11, 46, 14);
 		contentPane.add(lblTitulo);
 		
-		textField = new JTextField();
-		textField.setBounds(97, 8, 327, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textNome = new JTextField();
+		textNome.setBounds(97, 8, 327, 20);
+		contentPane.add(textNome);
+		textNome.setColumns(10);
 		
 		lblPreo = new JLabel("Pre\u00E7o:");
 		lblPreo.setBounds(10, 42, 46, 14);
 		contentPane.add(lblPreo);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(97, 39, 327, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		textPreco = new JTextField();
+		textPreco.setBounds(97, 39, 327, 20);
+		contentPane.add(textPreco);
+		textPreco.setColumns(10);
 		
 		lblDescrio = new JLabel("Descri\u00E7\u00E3o:");
 		lblDescrio.setBounds(10, 98, 63, 14);
 		contentPane.add(lblDescrio);
 		
-		textArea = new JTextArea();
-		textArea.setBounds(10, 115, 414, 101);
-		contentPane.add(textArea);
+		textDescri = new JTextArea();
+		textDescri.setBounds(10, 115, 414, 101);
+		contentPane.add(textDescri);
 		
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.setBounds(335, 227, 89, 23);
@@ -101,6 +104,32 @@ public class AddTipoIngresso extends JFrame {
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(97, 70, 130, 20);
 		contentPane.add(comboBox);
+		
+		btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				/****************
+				 ****************
+				 **************** 
+				 ****
+				 **** 
+				 ****************
+				 ****************
+				 ****************
+				 ****
+				 **** 
+				 ****************
+				 ****************
+				 ****************
+				 * */
+				//editar conforme combobox do evento
+				int codEvent = 0;
+				TipoIngresso topIngr = new TipoIngresso(textNome.getText(), textDescri.getText(),(Double)Double.valueOf(textPreco.getText()), codEvent);
+			}
+		});
+		btnSalvar.setBounds(335, 227, 89, 23);
+		contentPane.add(btnSalvar);
 		
 		
 	}

@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import models.Local;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
@@ -16,8 +19,9 @@ import java.awt.event.ActionEvent;
 public class AddLocal extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textNome;
+	private JTextField textEnd;
+	private JTextArea textObs;
 
 	/**
 	 * Launch the application.
@@ -51,29 +55,34 @@ public class AddLocal extends JFrame {
 		lblNome.setBounds(10, 11, 46, 14);
 		contentPane.add(lblNome);
 		
-		textField = new JTextField();
-		textField.setBounds(80, 8, 344, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textNome = new JTextField();
+		textNome.setBounds(80, 8, 344, 20);
+		contentPane.add(textNome);
+		textNome.setColumns(10);
 		
 		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
 		lblEndereo.setBounds(10, 42, 63, 14);
 		contentPane.add(lblEndereo);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(80, 39, 344, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		textEnd = new JTextField();
+		textEnd.setBounds(80, 39, 344, 20);
+		contentPane.add(textEnd);
+		textEnd.setColumns(10);
 		
 		JLabel lblObservo = new JLabel("Observ\u00E7\u00E3o:");
 		lblObservo.setBounds(10, 67, 63, 14);
 		contentPane.add(lblObservo);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(10, 92, 414, 122);
-		contentPane.add(textArea);
+		textObs = new JTextArea();
+		textObs.setBounds(10, 92, 414, 122);
+		contentPane.add(textObs);
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Local lcl = new Local(textNome.getText(), textEnd.getText(), textObs.getText());
+			}
+		});
 		btnSalvar.setBounds(335, 227, 89, 23);
 		contentPane.add(btnSalvar);
 		

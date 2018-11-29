@@ -69,7 +69,7 @@ public class ListarEventos extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 42, 424, 174);
+		panel.setBounds(10, 42, 414, 174);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
