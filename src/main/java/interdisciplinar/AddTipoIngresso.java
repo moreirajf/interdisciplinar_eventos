@@ -7,13 +7,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import models.Evento;
+import models.Local;
 import models.TipoIngresso;
+import utils.DadosLogado;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 
@@ -27,6 +32,7 @@ public class AddTipoIngresso extends JFrame {
 	private JTextArea textDescri;
 	private JButton btnSalvar;
 	private JButton btnVoltar;
+	private JButton btnExcluir;
 
 	/**
 	 * Launch the application.
@@ -101,35 +107,54 @@ public class AddTipoIngresso extends JFrame {
 		lblEvento.setBounds(10, 73, 46, 14);
 		contentPane.add(lblEvento);
 		
-		JComboBox comboBox = new JComboBox();
+		final JComboBox<Evento> comboBox = new JComboBox<Evento>();
+		ArrayList<Evento> eventos = DadosLogado.clientDAO.getEventosByOrganizador(DadosLogado.cpfCnpj);
+		comboBox.setModel(new DefaultComboBoxModel<Evento>(eventos.toArray(new Evento[0])));
+		
 		comboBox.setBounds(97, 70, 130, 20);
 		contentPane.add(comboBox);
+		
+		btnExcluir = new JButton("Excluir");
+		btnExcluir.setEnabled(false);
+		btnExcluir.setBounds(236, 227, 89, 23);
+		contentPane.add(btnExcluir);
 		
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				/****************
-				 ****************
-				 **************** 
-				 ****
-				 **** 
-				 ****************
-				 ****************
-				 ****************
-				 ****
-				 **** 
-				 ****************
-				 ****************
-				 ****************
-				 * */
-				//editar conforme combobox do evento
-				int codEvent = 0;
-				TipoIngresso topIngr = new TipoIngresso(textNome.getText(), textDescri.getText(),(Double)Double.valueOf(textPreco.getText()), codEvent);
+				
+				int codEvent = ((Evento)comboBox.getSelectedItem()).getCodigo();
+				TipoIngresso tipIngr;
+				if(DadosLogado.codIngresso != -1) {
+					tipIngr = new TipoIngresso(DadosLogado.codIngresso,textNome.getText(), textDescri.getText(),(Double)Double.valueOf(textPreco.getText()), codEvent);
+				}else {
+					tipIngr = new TipoIngresso(textNome.getText(), textDescri.getText(),(Double)Double.valueOf(textPreco.getText()), codEvent);
+					
+					
+				}
+				
+				DadosLogado.clientDAO.salvarTipoIngresso(tipIngr);
+				DadosLogado.codIngresso = -1;
+				
+				
 			}
 		});
 		btnSalvar.setBounds(335, 227, 89, 23);
 		contentPane.add(btnSalvar);
+		
+		if(DadosLogado.codIngresso != -1) {
+			TipoIngresso tipoIngresso = DadosLogado.clientDAO.getTipoIngresso(DadosLogado.codIngresso);
+			Evento evento = DadosLogado.clientDAO.getEventosById(tipoIngresso.getEvento_codigo());
+			
+			comboBox.setSelectedIndex(eventos.indexOf(evento));
+			
+			textDescri.setText(tipoIngresso.getDescricao());
+			textNome.setText(tipoIngresso.getNome());
+			textPreco.setText(String.valueOf(tipoIngresso.getPreco()));
+			btnExcluir.setEnabled(true);
+			
+		}
 		
 		
 	}

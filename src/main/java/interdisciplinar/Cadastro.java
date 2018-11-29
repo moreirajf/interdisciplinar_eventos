@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import models.Organizador;
 import models.Patrocinador;
+import utils.DadosLogado;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -156,23 +157,26 @@ public class Cadastro extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				Organizador orgnz = null;
+				Patrocinador patroc = null;
 				if (cmbTipo.getSelectedItem().equals("Organizador")) {
 					if (!pwSenha.getText().equals(pwConfirmSenha.getText())) {
 						JOptionPane.showMessageDialog(null, "Senhas não conincidem", "Erro", JOptionPane.WARNING_MESSAGE);
 					}else {
-						Organizador orgnz =  new Organizador(textcpf.getText(), textEmail.getText(), textFone.getText(), textName.getText(),textUsuario.getText(), pwSenha.getText());
+						orgnz =  new Organizador(textcpf.getText(), textEmail.getText(), textFone.getText(), textName.getText(),textUsuario.getText(), pwSenha.getText());
 					}
+					DadosLogado.clientDAO.criarOrganizador(orgnz);
+					
 				}else if(cmbTipo.getSelectedItem().equals("Patrocinador")) {
 					if (!pwSenha.getText().equals(pwConfirmSenha.getText())) {
 						JOptionPane.showMessageDialog(null, "Senhas não conincidem", "Erro", JOptionPane.WARNING_MESSAGE);
 					}else {
-						Patrocinador patroc =  new Patrocinador(textcpf.getText(), textFone.getText(), textUsuario.getText(), pwSenha.getText(), textName.getText() );
+						patroc =  new Patrocinador(textcpf.getText(), textFone.getText(), textUsuario.getText(), pwSenha.getText(), textName.getText() );
 					}
+					
+					DadosLogado.clientDAO.criarPatrocinador(patroc);
 				}
-				
-				
-				
-				
+								
 			}
 		});
 		btnSalvar.setBounds(335, 258, 89, 23);

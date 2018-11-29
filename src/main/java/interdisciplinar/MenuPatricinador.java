@@ -11,12 +11,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JList;
 
 public class MenuPatricinador extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
 	private JTextField textField;
+	private JList list;
 
 	/**
 	 * Launch the application.
@@ -63,9 +64,9 @@ public class MenuPatricinador extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		table = new JTable();
-		table.setBounds(0, 170, 414, -166);
-		panel.add(table);
+		list = new JList();
+		list.setBounds(0, 173, 414, -172);
+		panel.add(list);
 		
 		textField = new JTextField();
 		textField.setBounds(10, 11, 302, 20);

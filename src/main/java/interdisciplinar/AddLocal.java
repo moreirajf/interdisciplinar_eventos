@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import models.Local;
+import utils.DadosLogado;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -77,10 +78,22 @@ public class AddLocal extends JFrame {
 		textObs.setBounds(10, 92, 414, 122);
 		contentPane.add(textObs);
 		
+		final JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setEnabled(false);
+		btnExcluir.setBounds(236, 227, 89, 23);
+		contentPane.add(btnExcluir);
+		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Local lcl = new Local(textNome.getText(), textEnd.getText(), textObs.getText());
+				Local lcl; 
+				if(DadosLogado.codLocal != -1) {
+					lcl = new Local(DadosLogado.codLocal,textNome.getText(), textEnd.getText(), textObs.getText());
+				}else {
+					lcl = new Local(textNome.getText(), textEnd.getText(), textObs.getText());
+				}
+				DadosLogado.clientDAO.salvarLocal(lcl);
+				DadosLogado.codLocal = -1;
 			}
 		});
 		btnSalvar.setBounds(335, 227, 89, 23);
@@ -96,5 +109,17 @@ public class AddLocal extends JFrame {
 		});
 		btnVoltar.setBounds(10, 227, 89, 23);
 		contentPane.add(btnVoltar);
+		
+		
+	
+		if(DadosLogado.codLocal != -1) {
+			Local local = DadosLogado.clientDAO.getLocalEvento(DadosLogado.codEvent);
+			textNome.setText(local.getNome());
+			textEnd.setText(local.getEndereco());
+			textObs.setText(local.getObservacoes());
+			btnExcluir.setEnabled(true);
+		}
 	}
+	
+	
 }

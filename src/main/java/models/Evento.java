@@ -8,13 +8,13 @@ public class Evento implements Serializable{
     private String fim;
     private String inicio;
     private String nome;
-    private String capacidade;
+    private int capacidade;
     private int local_codigo;
     private String organizador_cpf_cnpj;
     private String img_link1;
     private String img_link2;
 
-    public Evento(int codigo, String descricao, String fim, String inicio, String nome, String capacidade, int local_codigo, String organizador_cpf_cnpj, String img_link1, String img_link2) {
+    public Evento(int codigo, String descricao, String fim, String inicio, String nome, int capacidade, int local_codigo, String organizador_cpf_cnpj, String img_link1, String img_link2) {
         this.codigo = codigo;
         this.descricao = descricao;
         this.fim = fim;
@@ -27,7 +27,7 @@ public class Evento implements Serializable{
         this.img_link2 = img_link2;
     }
 
-    public Evento(String descricao, String fim, String inicio, String nome, String capacidade, int local_codigo, String organizador_cpf_cnpj, String img_link1, String img_link2) {
+    public Evento(String descricao, String fim, String inicio, String nome, int capacidade, int local_codigo, String organizador_cpf_cnpj, String img_link1, String img_link2) {
         this.descricao = descricao;
         this.fim = fim;
         this.inicio = inicio;
@@ -86,11 +86,11 @@ public class Evento implements Serializable{
         this.nome = nome;
     }
 
-    public String getCapacidade() {
+    public int getCapacidade() {
         return capacidade;
     }
 
-    public void setCapacidade(String capacidade) {
+    public void setCapacidade(int capacidade) {
         this.capacidade = capacidade;
     }
 

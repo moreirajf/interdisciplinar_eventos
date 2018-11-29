@@ -17,16 +17,21 @@ import com.github.lgooddatepicker.components.TimePickerSettings;
 import com.github.lgooddatepicker.components.TimePickerSettings.TimeArea;
 
 import models.Evento;
+import models.Local;
+import socket.ClienteDao;
+import utils.DadosLogado;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 
@@ -70,7 +75,7 @@ public class AddEventos extends JFrame {
 	public AddEventos() {
 		setTitle("Adicioar Eventos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 414);
+		setBounds(100, 100, 450, 426);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -166,7 +171,10 @@ public class AddEventos extends JFrame {
 		lblLocal.setBounds(10, 99, 67, 14);
 		contentPane.add(lblLocal);
 		
-		JComboBox comboBox = new JComboBox();
+		final JComboBox<Local> comboBox = new JComboBox<Local>();
+		ArrayList<Local> locais = DadosLogado.clientDAO.getAllLocais();
+		comboBox.setModel(new DefaultComboBoxModel<Local>( locais.toArray(new Local[0])));
+		
 		comboBox.setBounds(76, 96, 142, 20);
 		contentPane.add(comboBox);
 		
@@ -214,24 +222,23 @@ public class AddEventos extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				/****************
-				 ****************
-				 **************** 
-				 ****
-				 **** 
-				 ****************
-				 ****************
-				 ****************
-				 ****
-				 **** 
-				 ****************
-				 ****************
-				 ****************
-				 * */
-				//editar conforme combobox do local
-				int comb = 0;
 				
-				Evento evnt = new Evento(textArea.getText(), datePicker1.getDate().toString(), datePicker.getDate().toString(), textName.getText(), textCapac.getText(), comb , textcpf.getText(),textImg1.getText(), textImg2.getText());
+				int comb = ((Local)comboBox.getSelectedItem()).getCodigo();
+				Evento evnt;
+				
+				if(DadosLogado.codEvent != -1) {
+					evnt = new Evento( DadosLogado.codEvent,textArea.getText(), datePicker1.getDate().toString(), 
+							datePicker.getDate().toString(), textName.getText(), (int) Integer.valueOf(textCapac.getText()), 
+							comb , textcpf.getText(),textImg1.getText(), textImg2.getText());
+				}else {
+					evnt = new Evento(textArea.getText(), datePicker1.getDate().toString(), 
+							datePicker.getDate().toString(), textName.getText(), (int) Integer.valueOf(textCapac.getText()), 
+							comb , textcpf.getText(),textImg1.getText(), textImg2.getText());
+				}
+				
+				DadosLogado.clientDAO.salvarEvento(evnt);
+				
+				
 				
 			}
 		});
@@ -248,14 +255,20 @@ public class AddEventos extends JFrame {
 	     contentPane.add(lblCpfcnpjOrganizador);
 	     
 	     textcpf = new JTextField();
-	     textcpf.setBounds(183, 217, 241, 20);
+	     textcpf.setBounds(155, 217, 269, 20);
 	     contentPane.add(textcpf);
 	     textcpf.setColumns(10);
 		
 		
         
 		
+		if(DadosLogado.codEvent != -1) {
+			Local local = DadosLogado.clientDAO.getLocalEvento(DadosLogado.codEvent);
+			
+			comboBox.setSelectedIndex(locais.indexOf(local));
+			
 		
+		}
 	
 	}
 }

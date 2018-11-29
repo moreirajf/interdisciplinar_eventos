@@ -11,12 +11,13 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTree;
+import javax.swing.JList;
 
 public class ListarIngressos extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -47,12 +48,12 @@ public class ListarIngressos extends JFrame {
 		contentPane.setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(10, 11, 315, 20);
+		textField.setBounds(10, 11, 273, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(335, 10, 89, 23);
+		btnPesquisar.setBounds(293, 10, 131, 23);
 		contentPane.add(btnPesquisar);
 		
 		JPanel panel = new JPanel();
@@ -60,9 +61,9 @@ public class ListarIngressos extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		table = new JTable();
-		table.setBounds(0, 173, 414, -168);
-		panel.add(table);
+		JList list = new JList();
+		list.setBounds(0, 171, 414, -170);
+		panel.add(list);
 		
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {

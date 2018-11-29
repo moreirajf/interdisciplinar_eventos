@@ -60,4 +60,15 @@ public class Local implements Serializable {
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
     }
+    @Override
+    public String toString() {
+        return this.nome;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof  Local)
+            return codigo==((Local)obj).codigo;
+
+        return super.equals(obj);
+    }
 }

@@ -12,12 +12,12 @@ import java.awt.CardLayout;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JList;
 
 public class ListarEventos extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTable table;
 	private JButton btnVoltar; 
 
 	/**
@@ -54,7 +54,7 @@ public class ListarEventos extends JFrame {
 		textField.setColumns(10);
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(335, 10, 89, 23);
+		btnPesquisar.setBounds(301, 10, 123, 23);
 		contentPane.add(btnPesquisar);
 		
 		btnVoltar = new JButton("Voltar");
@@ -73,8 +73,8 @@ public class ListarEventos extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		table = new JTable();
-		table.setBounds(10, 170, 404, -169);
-		panel.add(table);
+		JList list = new JList();
+		list.setBounds(0, 169, 414, -168);
+		panel.add(list);
 	}
 }
