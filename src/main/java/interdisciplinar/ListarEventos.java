@@ -4,13 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import models.Evento;
+import utils.DadosLogado;
+
 import java.awt.CardLayout;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 
@@ -53,9 +59,7 @@ public class ListarEventos extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(301, 10, 123, 23);
-		contentPane.add(btnPesquisar);
+		
 		
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
@@ -73,8 +77,40 @@ public class ListarEventos extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JList list = new JList();
+		ArrayList<Evento> eventos = DadosLogado.clientDAO.getAllEventos();
+		
+		DefaultListModel dlm = new DefaultListModel();
+		for(Evento p : eventos ){
+		     dlm.addElement(p.getNome());
+		}
+		final JList list = new JList(dlm);
+		
 		list.setBounds(0, 169, 414, -168);
 		panel.add(list);
+		
+		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				ArrayList<Evento> eventos = DadosLogado.clientDAO.buscarEventos(textField.getText());
+				
+				DefaultListModel dlm = new DefaultListModel();
+				for(Evento p : eventos ){
+				     dlm.addElement(p.getNome());
+				}
+				
+				list.setModel(dlm);
+				
+				
+				
+			}
+		});
+		
+		btnPesquisar.setBounds(301, 10, 123, 23);
+		contentPane.add(btnPesquisar);
+		
 	}
 }

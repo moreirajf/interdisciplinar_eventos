@@ -4,10 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import models.Evento;
+import models.Local;
+import utils.DadosLogado;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -64,7 +71,13 @@ public class MenuPatricinador extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		list = new JList();
+		ArrayList<Evento> eventos = DadosLogado.clientDAO.getAllEventos();
+		
+		DefaultListModel dlm = new DefaultListModel();
+		for(Evento p : eventos ){
+		     dlm.addElement(p.getNome());
+		}
+		list = new JList(dlm);
 		list.setBounds(0, 173, 414, -172);
 		panel.add(list);
 		
@@ -76,9 +89,24 @@ public class MenuPatricinador extends JFrame {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				ArrayList<Evento> eventos = DadosLogado.clientDAO.buscarEventos(textField.getText());
+				
+				DefaultListModel dlm = new DefaultListModel();
+				for(Evento p : eventos ){
+				     dlm.addElement(p.getNome());
+				}
+				list.setModel(dlm);
+				
+				
 				InfoEvenPatrocin infEvenPatr = new InfoEvenPatrocin();
 				infEvenPatr.setVisible(true);
 				dispose();
+				
+				
+				
 			}
 		});
 		btnBuscar.setBounds(322, 10, 102, 23);

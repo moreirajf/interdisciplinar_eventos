@@ -151,7 +151,7 @@ public class Cadastro extends JFrame {
 		textFone = new JTextField();
 		textFone.setBounds(88, 197, 336, 20);
 		contentPane.add(textFone);
-		textFone.setColumns(10);
+		textFone.setColumns(10); 
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {

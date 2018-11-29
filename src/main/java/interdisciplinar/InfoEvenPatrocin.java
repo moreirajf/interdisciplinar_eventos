@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import models.Evento;
+import utils.DadosLogado;
+
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -52,31 +56,40 @@ public class InfoEvenPatrocin extends JFrame {
 		lblEvento.setBounds(84, 11, 340, 14);
 		contentPane.add(lblEvento);
 		
-		JLabel lblData = new JLabel("Data:");
+		JLabel lblData = new JLabel("Inicio:");
 		lblData.setBounds(10, 36, 64, 14);
 		contentPane.add(lblData);
 		
-		JLabel lblDdmmaaaa = new JLabel("DD/MM/AAAA");
-		lblDdmmaaaa.setBounds(84, 36, 124, 14);
-		contentPane.add(lblDdmmaaaa);
+		JLabel lblInicio = new JLabel("DD/MM/AAAA");
+		lblInicio.setBounds(84, 36, 124, 14);
+		contentPane.add(lblInicio);
 		
-		JLabel lblHorario = new JLabel("Horário:");
+		JLabel lblHorario = new JLabel("Fim:");
 		lblHorario.setBounds(218, 36, 89, 14);
 		contentPane.add(lblHorario);
 		
-		JLabel lblHhmm = new JLabel("HH:MM");
-		lblHhmm.setBounds(320, 36, 104, 14);
-		contentPane.add(lblHhmm);
+		JLabel lblFim = new JLabel("HH:MM");
+		lblFim.setBounds(320, 36, 104, 14);
+		contentPane.add(lblFim);
 		
 		JLabel lblDescrio = new JLabel("Descri\u00E7\u00E3o:");
 		lblDescrio.setBounds(10, 61, 104, 14);
 		contentPane.add(lblDescrio);
 		
 		JTextArea textArea = new JTextArea();
+		textArea.setEnabled(false);
+		textArea.setEditable(false);
 		textArea.setBounds(10, 86, 414, 95);
 		contentPane.add(textArea);
 		
 		JButton btnPatrocinarEsteEvento = new JButton("Patrocinar este evento");
+		btnPatrocinarEsteEvento.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				DadosLogado.clientDAO.adicionarPatrocinio(DadosLogado.codEvent, DadosLogado.cpfCnpj);
+				
+			}
+		});
 		btnPatrocinarEsteEvento.setBounds(10, 192, 198, 23);
 		contentPane.add(btnPatrocinarEsteEvento);
 		
@@ -94,9 +107,28 @@ public class InfoEvenPatrocin extends JFrame {
 		JButton btnDespatrocinar = new JButton("Remover Patrocinio");
 		btnDespatrocinar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DadosLogado.clientDAO.removerPatrocinio(DadosLogado.codEvent, DadosLogado.cpfCnpj);
+				
 			}
 		});
 		btnDespatrocinar.setBounds(218, 192, 206, 23);
 		contentPane.add(btnDespatrocinar);
+		
+		if(DadosLogado.codEvent != -1) {
+			Evento evento = DadosLogado.clientDAO.getEventosById(DadosLogado.codEvent);
+			if (DadosLogado.clientDAO.isPatrocinado(DadosLogado.codEvent, DadosLogado.cpfCnpj)){
+				btnPatrocinarEsteEvento.setEnabled(false);
+				btnDespatrocinar.setEnabled(true);
+			}else {
+				btnPatrocinarEsteEvento.setEnabled(true);
+				btnDespatrocinar.setEnabled(false);
+			}
+			
+			lblInicio.setText(evento.getInicio());
+			lblFim.setText(evento.getFim());
+			lblNome.setText(evento.getNome());
+			lblDescrio.setText(evento.getDescricao());
+		}
+	
 	}
 }

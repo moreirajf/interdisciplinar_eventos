@@ -6,10 +6,17 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import models.Evento;
+import models.TipoIngresso;
+import utils.DadosLogado;
+
 import javax.swing.JTextField;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTree;
 import javax.swing.JList;
@@ -52,16 +59,21 @@ public class ListarIngressos extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(293, 10, 131, 23);
-		contentPane.add(btnPesquisar);
+		
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 42, 414, 174);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JList list = new JList();
+		ArrayList<TipoIngresso> tipoIngressos = DadosLogado.clientDAO.getTipoIngressosOrganizador(DadosLogado.cpfCnpj);
+		
+		DefaultListModel dlm = new DefaultListModel();
+		for(TipoIngresso p : tipoIngressos ){
+		     dlm.addElement(p.getNome());
+		}
+		final JList list = new JList(dlm);
+		
 		list.setBounds(0, 171, 414, -170);
 		panel.add(list);
 		
@@ -75,5 +87,25 @@ public class ListarIngressos extends JFrame {
 		});
 		btnVoltar.setBounds(10, 227, 89, 23);
 		contentPane.add(btnVoltar);
+		
+		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				ArrayList<TipoIngresso> tipoIngressos = DadosLogado.clientDAO.buscarTipoIngresso(textField.getText(), DadosLogado.cpfCnpj);
+				
+				DefaultListModel dlm = new DefaultListModel();
+				for(TipoIngresso p : tipoIngressos ){
+				     dlm.addElement(p.getNome());
+				}
+				list.setModel(dlm);
+			}
+		});
+		
+		
+		btnPesquisar.setBounds(293, 10, 131, 23);
+		contentPane.add(btnPesquisar);
 	}
 }

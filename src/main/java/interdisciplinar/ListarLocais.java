@@ -6,10 +6,17 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import models.Local;
+import models.TipoIngresso;
+import utils.DadosLogado;
+
 import javax.swing.JTextField;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 
@@ -53,16 +60,22 @@ public class ListarLocais extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(311, 10, 113, 23);
-		contentPane.add(btnPesquisar);
+		
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 42, 414, 174);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		list = new JList();
+		
+		ArrayList<Local> locais = DadosLogado.clientDAO.getAllLocais();
+		
+		DefaultListModel dlm = new DefaultListModel();
+		for(Local p : locais ){
+		     dlm.addElement(p.getNome());
+		}
+		list = new JList(dlm);
+				
 		list.setBounds(0, 172, 414, -171);
 		panel.add(list);
 		
@@ -76,5 +89,25 @@ public class ListarLocais extends JFrame {
 		});
 		btnVoltar.setBounds(10, 227, 89, 23);
 		contentPane.add(btnVoltar);
+		
+		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				ArrayList<Local> locais = DadosLogado.clientDAO.buscarLocal(textField.getText());
+				
+				DefaultListModel dlm = new DefaultListModel();
+				for(Local p : locais ){
+				     dlm.addElement(p.getNome());
+				}
+				list.setModel(dlm);
+				
+			}
+		});
+		btnPesquisar.setBounds(311, 10, 113, 23);
+		contentPane.add(btnPesquisar);
 	}
 }
