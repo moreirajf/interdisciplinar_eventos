@@ -3,22 +3,19 @@ package interdisciplinar;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import models.Evento;
 import models.Local;
 import models.TipoIngresso;
 import utils.DadosLogado;
 
-import javax.swing.JTextField;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class ListarLocais extends JFrame {
 
@@ -68,15 +65,30 @@ public class ListarLocais extends JFrame {
 		panel.setLayout(null);
 		
 		
-		ArrayList<Local> locais = DadosLogado.clientDAO.getAllLocais();
-		
-		DefaultListModel dlm = new DefaultListModel();
-		for(Local p : locais ){
-		     dlm.addElement(p.getNome());
+		final ArrayList<Local> locais = DadosLogado.clientDAO.getAllLocais();
+
+		final JList list = new JList(new String[]{"oi","tchau","mae"});
+		list.setVisibleRowCount(12);
+		DefaultListModel model;
+		model = new DefaultListModel();
+		for(Local tp : locais){
+			model.addElement(tp.getNome());
 		}
-		list = new JList(dlm);
-				
-		list.setBounds(0, 172, 414, -171);
+		list.setModel(model);
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+
+				System.out.println(locais.get(list.getSelectedIndex()).getCodigo());
+				DadosLogado.codLocal=locais.get(list.getSelectedIndex()).getCodigo();
+				AddLocal addI = new AddLocal();
+				addI.setVisible(true);
+				dispose();
+			}
+		});
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		panel.setLayout(new BorderLayout());
+
 		panel.add(list);
 		
 		btnVoltar = new JButton("Voltar");

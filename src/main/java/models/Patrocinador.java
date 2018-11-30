@@ -3,7 +3,7 @@ package models;
 import java.io.Serializable;
 
 public class Patrocinador implements Serializable {
-    private String cpfCnpj;
+    private String cpfCnpj=null;
     private String telefone;
     private String usuario;
     private String senha;

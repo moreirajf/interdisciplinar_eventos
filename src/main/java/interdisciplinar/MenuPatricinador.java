@@ -6,19 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import models.Evento;
 import models.Local;
 import utils.DadosLogado;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class MenuPatricinador extends JFrame {
 
@@ -71,14 +67,27 @@ public class MenuPatricinador extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		ArrayList<Evento> eventos = DadosLogado.clientDAO.getAllEventos();
-		
-		DefaultListModel dlm = new DefaultListModel();
-		for(Evento p : eventos ){
-		     dlm.addElement(p.getNome());
+		final ArrayList<Evento> eventos = DadosLogado.clientDAO.getAllEventos();
+		final JList list = new JList(new String[]{"oi","tchau","mae"});
+		list.setVisibleRowCount(12);
+		DefaultListModel model;
+		model = new DefaultListModel();
+		for(Evento tp : eventos){
+			model.addElement(tp.getNome());
 		}
-		list = new JList(dlm);
-		list.setBounds(0, 173, 414, -172);
+		list.setModel(model);
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				DadosLogado.codEvent=eventos.get(list.getSelectedIndex()).getCodigo();
+				InfoEvenPatrocin infEvenPatr = new InfoEvenPatrocin();
+				infEvenPatr.setVisible(true);
+				dispose();
+			}
+		});
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		panel.setLayout(new BorderLayout());
+
 		panel.add(list);
 		
 		textField = new JTextField();
@@ -101,9 +110,7 @@ public class MenuPatricinador extends JFrame {
 				list.setModel(dlm);
 				
 				
-				InfoEvenPatrocin infEvenPatr = new InfoEvenPatrocin();
-				infEvenPatr.setVisible(true);
-				dispose();
+
 				
 				
 				

@@ -1,25 +1,19 @@
 package interdisciplinar;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import models.Evento;
 import models.TipoIngresso;
 import utils.DadosLogado;
 
-import javax.swing.JTextField;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import javax.swing.JTree;
-import javax.swing.JList;
 
 public class ListarIngressos extends JFrame {
 
@@ -66,17 +60,35 @@ public class ListarIngressos extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		ArrayList<TipoIngresso> tipoIngressos = DadosLogado.clientDAO.getTipoIngressosOrganizador(DadosLogado.cpfCnpj);
+		final ArrayList<TipoIngresso> tipoIngressos = DadosLogado.clientDAO.getTipoIngressosOrganizador(DadosLogado.cpfCnpj);
 		
-		DefaultListModel dlm = new DefaultListModel();
+		/*DefaultListModel dlm = new DefaultListModel();
 		for(TipoIngresso p : tipoIngressos ){
 		     dlm.addElement(p.getNome());
+		}*/
+		final JList list = new JList(new String[]{"oi","tchau","mae"});
+		list.setVisibleRowCount(12);
+		DefaultListModel model;
+		model = new DefaultListModel();
+		for(TipoIngresso tp : tipoIngressos){
+			model.addElement(tp.getNome());
 		}
-		final JList list = new JList(dlm);
-		
-		list.setBounds(0, 171, 414, -170);
+		list.setModel(model);
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				DadosLogado.codIngresso=tipoIngressos.get(list.getSelectedIndex()).getCodigo();
+				AddTipoIngresso addI = new AddTipoIngresso();
+				addI.setVisible(true);
+				dispose();
+			}
+		});
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		panel.setLayout(new BorderLayout());
+
 		panel.add(list);
-		
+
+
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

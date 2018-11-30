@@ -3,7 +3,7 @@ package models;
 import java.io.Serializable;
 
 public class Organizador implements Serializable {
-    private String cpf_cnpj;
+    private String cpf_cnpj=null;
     private String email;
     private String telefone;
     private String nome;

@@ -3,7 +3,7 @@ package models;
 import java.io.Serializable;
 
 public class Evento implements Serializable{
-    private int codigo;
+    private int codigo=-1;
     private String descricao;
     private String fim;
     private String inicio;
@@ -124,5 +124,10 @@ public class Evento implements Serializable{
 
     public void setImg_link2(String img_link2) {
         this.img_link2 = img_link2;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
     }
 }

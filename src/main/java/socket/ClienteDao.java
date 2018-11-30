@@ -10,9 +10,10 @@ public interface ClienteDao {
     public ArrayList<Local> getAllLocais();
     public Evento getEventosById(int evento);
     public Local getLocalEvento(int evento);
+    public Local getLocalById(int local);
 
     public void salvarLocal(Local local);//se codigo estiver setado => comando update;
-    public void deletarEvento(Local local);
+    public void deletarLocal(Local local);
     public ArrayList<Local> buscarLocal(String nome);
 
     public void salvarEvento(Evento evento);//se codigo estiver setado => comando update;

@@ -1,16 +1,15 @@
 package interdisciplinar;
 
+import models.Organizador;
+import models.Patrocinador;
+import socket.DaoClienteSocket;
+import utils.DadosLogado;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JPasswordField;
-import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -27,6 +26,7 @@ public class Tela01 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					DadosLogado.clientDAO=new DaoClienteSocket("localhost");
 					Tela01 frame = new Tela01();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -74,15 +74,33 @@ public class Tela01 extends JFrame {
 		JButton logar = new JButton("Entrar");
 		logar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				if(comboBox.getSelectedItem().equals("Organizador")) {
-					TelaMenu telM = new TelaMenu();
-					telM.setVisible(true);
-					dispose();
+					Organizador org=DadosLogado.clientDAO.loginOrganizador(textField.getText(),passwordField.getText());
+					if(org==null){
+						JOptionPane.showConfirmDialog(null,"Seu usuário ou senha podem estar incorretos. Verifique seu tipo de usuário");
+					}
+					else {
+						JOptionPane.showConfirmDialog(null,"Deu bom");
+						DadosLogado.cpfCnpj=org.getCpf_cnpj();
+						TelaMenu telM = new TelaMenu();
+						telM.setVisible(true);
+						dispose();
+					}
+
+
 				}else if(comboBox.getSelectedItem().equals("Patrocinador")){
-					MenuPatricinador menPa = new MenuPatricinador();
-					menPa.setVisible(true);
-					dispose();
+					Patrocinador pat=DadosLogado.clientDAO.loginPatrocinador(textField.getText(),passwordField.getText());
+					if(pat==null){
+						JOptionPane.showConfirmDialog(null,"Seu usuário ou senha podem estar incorretos. Verifique seu tipo de usuário");
+					}
+					else {
+						JOptionPane.showConfirmDialog(null,"Deu bom");
+						DadosLogado.cpfCnpj=pat.getCpfCnpj();
+						MenuPatricinador menPa = new MenuPatricinador();
+						menPa.setVisible(true);
+						dispose();
+					}
+
 				}
 				
 			}

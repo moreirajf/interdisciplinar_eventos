@@ -87,6 +87,9 @@ public class InfoEvenPatrocin extends JFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				DadosLogado.clientDAO.adicionarPatrocinio(DadosLogado.codEvent, DadosLogado.cpfCnpj);
+				MenuPatricinador menuPatricinador=new MenuPatricinador();
+				menuPatricinador.setVisible(true);
+				dispose();
 				
 			}
 		});
@@ -108,6 +111,9 @@ public class InfoEvenPatrocin extends JFrame {
 		btnDespatrocinar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DadosLogado.clientDAO.removerPatrocinio(DadosLogado.codEvent, DadosLogado.cpfCnpj);
+				MenuPatricinador menuPatricinador=new MenuPatricinador();
+				menuPatricinador.setVisible(true);
+				dispose();
 				
 			}
 		});
@@ -116,6 +122,7 @@ public class InfoEvenPatrocin extends JFrame {
 		
 		if(DadosLogado.codEvent != -1) {
 			Evento evento = DadosLogado.clientDAO.getEventosById(DadosLogado.codEvent);
+			System.out.println(DadosLogado.cpfCnpj);
 			if (DadosLogado.clientDAO.isPatrocinado(DadosLogado.codEvent, DadosLogado.cpfCnpj)){
 				btnPatrocinarEsteEvento.setEnabled(false);
 				btnDespatrocinar.setEnabled(true);
@@ -126,8 +133,8 @@ public class InfoEvenPatrocin extends JFrame {
 			
 			lblInicio.setText(evento.getInicio());
 			lblFim.setText(evento.getFim());
-			lblNome.setText(evento.getNome());
-			lblDescrio.setText(evento.getDescricao());
+			lblEvento.setText(evento.getNome());
+			textArea.setText(evento.getDescricao());
 		}
 	
 	}

@@ -3,7 +3,7 @@ package models;
 import java.io.Serializable;
 
 public class Local implements Serializable {
-    private int codigo;
+    private int codigo=-1;
     private String nome;
     private String endereco;
     private String observacoes;

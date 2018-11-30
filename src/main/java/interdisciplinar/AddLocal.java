@@ -94,6 +94,9 @@ public class AddLocal extends JFrame {
 				}
 				DadosLogado.clientDAO.salvarLocal(lcl);
 				DadosLogado.codLocal = -1;
+				TelaMenu tela = new TelaMenu();
+				tela.setVisible(true);
+				dispose();
 			}
 		});
 		btnSalvar.setBounds(335, 227, 89, 23);
@@ -109,11 +112,19 @@ public class AddLocal extends JFrame {
 		});
 		btnVoltar.setBounds(10, 227, 89, 23);
 		contentPane.add(btnVoltar);
-		
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DadosLogado.clientDAO.deletarLocal(DadosLogado.clientDAO.getLocalById(DadosLogado.codLocal));
+				DadosLogado.codIngresso = -1;
+				TelaMenu tela = new TelaMenu();
+				tela.setVisible(true);
+				dispose();
+			}
+		});
 		
 	
 		if(DadosLogado.codLocal != -1) {
-			Local local = DadosLogado.clientDAO.getLocalEvento(DadosLogado.codEvent);
+			Local local=DadosLogado.clientDAO.getLocalById(DadosLogado.codLocal);
 			textNome.setText(local.getNome());
 			textEnd.setText(local.getEndereco());
 			textObs.setText(local.getObservacoes());

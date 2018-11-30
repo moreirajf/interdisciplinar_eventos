@@ -30,6 +30,7 @@ import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -229,15 +230,17 @@ public class AddEventos extends JFrame {
 				if(DadosLogado.codEvent != -1) {
 					evnt = new Evento( DadosLogado.codEvent,textArea.getText(), datePicker1.getDate().toString(), 
 							datePicker.getDate().toString(), textName.getText(), (int) Integer.valueOf(textCapac.getText()), 
-							comb , textcpf.getText(),textImg1.getText(), textImg2.getText());
+							comb , DadosLogado.cpfCnpj,textImg1.getText(), textImg2.getText());
 				}else {
 					evnt = new Evento(textArea.getText(), datePicker1.getDate().toString(), 
 							datePicker.getDate().toString(), textName.getText(), (int) Integer.valueOf(textCapac.getText()), 
-							comb , textcpf.getText(),textImg1.getText(), textImg2.getText());
+							comb , DadosLogado.cpfCnpj,textImg1.getText(), textImg2.getText());
 				}
 				
 				DadosLogado.clientDAO.salvarEvento(evnt);
-				
+				TelaMenu tela = new TelaMenu();
+				tela.setVisible(true);
+				dispose();
 				
 				
 			}
@@ -250,7 +253,7 @@ public class AddEventos extends JFrame {
 	     btnExcluir.setBounds(236, 352, 89, 23);
 	     contentPane.add(btnExcluir);
 	     
-	     JLabel lblCpfcnpjOrganizador = new JLabel("CPF/CNPJ Organizador:");
+	   /*  JLabel lblCpfcnpjOrganizador = new JLabel("CPF/CNPJ Organizador:");
 	     lblCpfcnpjOrganizador.setBounds(10, 223, 163, 14);
 	     contentPane.add(lblCpfcnpjOrganizador);
 	     
@@ -258,15 +261,34 @@ public class AddEventos extends JFrame {
 	     textcpf.setBounds(155, 217, 269, 20);
 	     contentPane.add(textcpf);
 	     textcpf.setColumns(10);
+		*/
 		
-		
-        
+        btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DadosLogado.clientDAO.deletarEvento(DadosLogado.clientDAO.getEventosById(DadosLogado.codEvent));
+				DadosLogado.codEvent = -1;
+				TelaMenu tela = new TelaMenu();
+				tela.setVisible(true);
+				dispose();
+			}
+		});
 		
 		if(DadosLogado.codEvent != -1) {
+			Evento evento=DadosLogado.clientDAO.getEventosById(DadosLogado.codEvent);
 			Local local = DadosLogado.clientDAO.getLocalEvento(DadosLogado.codEvent);
-			
+			textName.setText(evento.getNome());
+			textImg1.setText(evento.getImg_link1());
+
+			textImg2.setText(evento.getImg_link2());
+			textCapac.setText(evento.getCapacidade()+"");
+
+			textArea.setText(evento.getDescricao());
+
+			datePicker.setDate(LocalDate.parse(evento.getInicio()));
+			datePicker1.setDate(LocalDate.parse(evento.getFim()));
 			comboBox.setSelectedIndex(locais.indexOf(local));
-			
+			btnExcluir.setEnabled(true);
+
 		
 		}
 	

@@ -1,5 +1,7 @@
 package interdisciplinar;
 
+import utils.DadosLogado;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -34,6 +36,10 @@ public class TelaMenu extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaMenu() {
+
+		DadosLogado.codLocal=-1;
+		DadosLogado.codIngresso=-1;
+		DadosLogado.codEvent=-1;
 		setTitle("Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

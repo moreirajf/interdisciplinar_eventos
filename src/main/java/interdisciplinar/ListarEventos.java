@@ -6,19 +6,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import models.Evento;
+import models.Organizador;
+import models.TipoIngresso;
 import utils.DadosLogado;
 
 import java.awt.CardLayout;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class ListarEventos extends JFrame {
 
@@ -77,17 +75,31 @@ public class ListarEventos extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		ArrayList<Evento> eventos = DadosLogado.clientDAO.getAllEventos();
-		
-		DefaultListModel dlm = new DefaultListModel();
-		for(Evento p : eventos ){
-		     dlm.addElement(p.getNome());
+		final ArrayList<Evento> eventos = DadosLogado.clientDAO.getEventosByOrganizador(DadosLogado.cpfCnpj);
+
+		final JList list = new JList(new String[]{"oi","tchau","mae"});
+		list.setVisibleRowCount(12);
+		DefaultListModel model;
+		model = new DefaultListModel();
+		for(Evento tp : eventos){
+			model.addElement(tp.getNome());
 		}
-		final JList list = new JList(dlm);
-		
-		list.setBounds(0, 169, 414, -168);
+		list.setModel(model);
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				DadosLogado.codEvent=eventos.get(list.getSelectedIndex()).getCodigo();
+				AddEventos addI = new AddEventos();
+				addI.setVisible(true);
+				dispose();
+			}
+		});
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		panel.setLayout(new BorderLayout());
+
 		panel.add(list);
-		
+
+
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(new ActionListener() {
 			
